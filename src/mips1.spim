@@ -1,0 +1,92 @@
+# FAC: TRABALHO 01
+
+.data
+space: .asciiz " "   #Definições de string
+new_line: .asciiz "\n"
+string_ADD: .asciiz "ADD: "
+string_SUB: .asciiz "\nSUB: "
+string_AND: .asciiz "\nAND: "
+string_OR: .asciiz "\nOR: "
+string_XOR: .asciiz "\nXOR: "
+string_SLL: .asciiz "\nSLL(3): "
+string_SRL: .asciiz "\nSRL(1): "
+.text
+
+main:
+
+li $v0, 5 #Entrada do primeiro numero
+syscall
+move $a0, $v0 #Salvando entrada 1 no registrador a0
+li $v0, 5  #Entrada do segundo numero
+syscall
+move $a1, $v0 #Salvando entrada 2 no registrador a1
+
+add $t0, $a0, $a1 #Adição	
+sub $t1, $a0, $a1 #Subtração
+and $t2, $a0, $a1 # And bit a bit
+or $t3, $a0, $a1 #or Bit a bit
+xor $t4, $a0, $a1 #Xor Bit
+sll $t5, $a0, 3 #Shift esquerda primeira variavel
+srl $t6, $a1, 1 #Shift direita segunda variavel
+
+jal print #Chamando funçao print
+li $v0, 10 #finalizando o programa
+syscall
+
+print: la $a0, string_ADD #movendo string para a0
+li $v0, 4 #print da string add
+syscall
+move $a0, $t0 #movendo valor t0 para a0
+li $v0, 1 #print da variavel t0
+syscall
+
+la $a0, string_SUB #movendo string para a0
+li $v0, 4 #print da string sub
+syscall
+move $a0, $t1 #movendo valor t1 para a0
+li $v0, 1 #print da variavel t1
+syscall
+
+la $a0, string_AND #movendo string para a0
+li $v0, 4 #print da string and
+syscall
+move $a0, $t2 #movendo valor t2 para a0
+li $v0, 1 #print da variavel t2
+syscall
+
+la $a0, string_OR #movendo string para a0
+li $v0, 4 #print da string or
+syscall
+move $a0, $t3 #movendo valor t3 para a0
+li $v0, 1 #print da variavel t3
+syscall
+
+la $a0, string_XOR #movendo string para a0
+li $v0, 4 #print da string xor
+syscall
+move $a0, $t4 #movendo valor t4 para a0
+li $v0, 1 #print da variavel t4
+syscall
+
+la $a0, string_SLL #movendo string para a0
+li $v0, 4 #print da string sll
+syscall
+move $a0, $t5 #movendo valor t5 para a0
+li $v0, 1 #print da variavel t5
+syscall
+
+la $a0, string_SRL #movendo string para a0
+li $v0, 4 #print da string srl
+syscall
+move $a0, $t6 #movendo valor t6 para a0
+li $v0, 1 #print da variavel t6
+syscall
+
+la $a0, new_line #quebra de linha
+li $v0, 4
+syscall
+
+jr $ra
+
+
+
