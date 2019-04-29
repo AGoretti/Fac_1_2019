@@ -15,7 +15,6 @@ break_line: .asciiz "\n"
 
 
 .text
-.globl main
 main:
 
     
@@ -30,7 +29,7 @@ jal loop_soma
 jal print_resultado	
 jal exit
 
-    
+.text    
 somar:
  
 
@@ -86,12 +85,13 @@ add $t4, $t4, $s6#transferindo
 li $t7, 6
 
 jr $ra
+.text
 loop_soma: 
 #começo do loop
 srl $t1, $t1, 1 #mudando o bit referncia pra direita
 and $s6, $s5, $t1 #somando para o novo valor
 add $t4, $t4, $s6 
-subi $t7, $t7, 1 #adicionando na contagem do loop
+addi $t7, $t7, -1 #adicionando na contagem do loop
 bgtz $t7, loop_soma #retorna para o inicio do loop	
    #saindo do loop
 andi $t4, $t4, 1 #testa o primeiro bit para ver se eh par ou impar
@@ -102,7 +102,7 @@ move $v0, $s0 #movendo para outro registrador
 sw $v0, posicao0 #palavra somada
     
 jr $ra
-    
+.text    
 print_resultado:
  
  #prints
@@ -129,14 +129,13 @@ li $v0, 4
 syscall
 
 jr $ra
-
+.text
 erro:
 la $a0, error #print de error
 li $v0, 4
 syscall
 
-
-
+.text
 
 exit:
 li $v0, 10
