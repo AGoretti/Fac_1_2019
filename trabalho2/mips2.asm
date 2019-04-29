@@ -15,7 +15,7 @@ break_line: .asciiz "\n"
 
 
 .text
- .globl main
+.globl main
 main:
 
     
@@ -26,9 +26,10 @@ lw $s0, a
 slti $t0, $s0, 128 #checa se o numero eh menor que 128 
 beq $t1, $t0, erro #se for menor manda mensagem de erro e fecha o programa
 jal somar
+jal loop_soma
 jal print_resultado	
-li $v0, 10
-syscall #exit
+jal exit
+
     
 somar:
  
@@ -79,19 +80,19 @@ add $s5, $s5, $t0 #adiciona ao registrado a quantidade de bits
  
 li $t1, 64 #t1 = 64
 and $s6, $s5, $t1 #primeira parte da soma
-la $t4, ($s6)#transferindo
+add $t4, $t4, $s6#transferindo
     
-li $v0, 0#valores de loop
+
 li $t7, 6
 
-
+jr $ra
 loop_soma: 
 #começo do loop
 srl $t1, $t1, 1 #mudando o bit referncia pra direita
 and $s6, $s5, $t1 #somando para o novo valor
 add $t4, $t4, $s6 
-addi $v0, $v0, 1 #adicionando na contagem do loop
-bne $v0, $t7, loop_soma #retorna para o inicio do loop	
+subi $t7, $t7, 1 #adicionando na contagem do loop
+bgtz $t7, loop_soma #retorna para o inicio do loop	
    #saindo do loop
 andi $t4, $t4, 1 #testa o primeiro bit para ver se eh par ou impar
 beq $t4, $zero, print_resultado #se for par pula para o print
@@ -127,13 +128,17 @@ la $a0, break_line
 li $v0, 4
 syscall
 
-li $v0, 10
-syscall #exit
+jr $ra
 
 erro:
 la $a0, error #print de error
 li $v0, 4
 syscall
 
+
+
+
+exit:
 li $v0, 10
 syscall#exit
+jr $ra
